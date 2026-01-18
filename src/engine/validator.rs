@@ -69,5 +69,13 @@ pub fn validate(state: &HandState, seat: SeatIndex, action: PlayerAction) -> Res
       }
       Ok(NormalizedAction::Raise { add, to: amount })
     }
+    PlayerAction::AllIn => {
+    // all in 에 대한 action 생성해줘
+    if ps.stack.0 == 0 {
+        return Err(RuleViolation::InsufficientChips);
+    }
+    
+    Ok(NormalizedAction::Raise { add: ps.stack, to: Chips(ps.street_contrib.0) + ps.stack })
+    }
   }
 }
